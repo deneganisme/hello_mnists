@@ -129,7 +129,6 @@ if __name__ == '__main__':
     else:
         early_stop_ckpt = None
 
-    mdl_ckpt = ModelCheckpoint(save_top_k=1, verbose=True, monitor='val_loss')
 
     profiler = SimpleProfiler()
 
@@ -143,6 +142,10 @@ if __name__ == '__main__':
         save_dir = lightning_log_pth
 
     tensorboard = TensorBoardLogger(save_dir=save_dir)
+    mdl_ckpt = ModelCheckpoint(filepath=save_dir,
+                               save_top_k = 1,
+                               verbose = True,
+                               monitor = 'val_loss')
 
     # most basic trainer, uses good defaults (auto-tensorboard, checkpoints, logs, and more)
     trainer = pl.Trainer(gpus=args.gpus if torch.cuda.is_available() else None,
